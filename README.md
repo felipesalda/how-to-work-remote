@@ -61,7 +61,7 @@ git remote -v
 origin  git@github.com:gitusername/your-reto-link.git (fetch)
 origin  git@github.com:gitusername/your-reto-link.git (push)
 ```
-Now we can push, pull and work with our repo everywhere, ***but alwas take care of your keys***.
+Now we can push, pull and work with our repo everywhere, ***but always take care of your keys***.
 
 
 ## Problem #1: main and master conflict
@@ -86,6 +86,73 @@ but this is something additional to do everytime, so there is when comes the nex
 git config --global init.defaultBranch main
 ```
 
-![Tux, the Linux mascot](/images/1.png)
+![commands initializing main branch](/images/1.png)
 
 Now we have ***one less, one less problem🎶*** 
+
+## 🍪 A Template for Data Science
+
+Another tip i've learned is to **have a template for the DS projects**. We usually (always, actually) have workflows of ETL (Extract, Transform and Load) and the structure of our projecs probably looks like this:
+
+![A Data Science Project Template](/images/3.png)
+- A folder for data (Raw and Processed)
+- A folder with Notebooks.
+- Readme and Environment files.
+
+This is the minimun we use for a project and we can have it automated like this:
+
+```shell
+(base) C:\path> conda activate cookiecutter-personal
+
+(cookiecutter-personal) C:\path\DS_Projects
+
+(cookiecutter-personal) C:\path\DS_Projects>cookiecutter https://github.com/felipesalda/cookiecutter-personal
+# You can use this template at my github for your own cookies (DS Projects) 😊
+
+project_title [Cookiecutter Personal]: DS Project with template
+project_slug [ds_project_with_template]:
+project_description [Building dreams with data]: this is a DS project template created with cookiecutter
+project_author_name [Felipe Saldarriaga @aprendeconfelipe]:
+Select project_packages:
+1 - All
+2 - Minimal
+Choose from 1, 2 [1]: 1
+python_version [3.7]:
+←[Let's do it! You're are going to build a dream with data!
+Creating project at C:\path\DS_Projects\ds_project_with_template←[
+Almost done!
+Initializing a git repository...
+Initialized empty Git repository in C:/path/DS_Projects/ds_project_with_template/.git/
+[main (root-commit) 8fbf8b4] Initial commit
+ 8 files changed, 24 insertions(+)
+ create mode 100644 .gitignore
+ create mode 100644 README.md
+ create mode 100644 data/.gitkeep
+ create mode 100644 data/processed/.gitkeep
+ create mode 100644 data/raw/.gitkeep
+ create mode 100644 environment.yml
+ create mode 100644 notebooks/.gitkeep
+ create mode 100644 notebooks/0.0-ds_project_with_template-introduction.ipynb
+The beginning of your destiny is defined now! Create and have fun!
+```
+
+Only with this instructions and a conda environment with cookiecutter we obtained  all the files, folders and even the environment created with all we need to start a Data Science Project.
+
+**But, ¿how can we do this?**
+We just need to install conda at your device (from the official page), open the Anaconda Prompt and do this:
+
+```shell
+conda config --add channels conda-forge
+#generate a channel for our cookiecutter environment
+
+conda create --name cookiecutter-personal cookiecutter=1.7.3
+#Important: this is an stable version for the config we need
+```
+
+There are ***many*** details and parametters we can add for our template like: 
+- Initializing the repo as it's created.
+- Hooks.
+- Scripting.
+- And even more.
+
+The next level of template personalization is up to your curiosity and the [official documentation.](https://cookiecutter.readthedocs.io/en/1.7.2/README.html) ¡go for it!.
