@@ -5,63 +5,56 @@ Here i'm sharing the best practices i've learned to work on remote projects: git
 **Disclaimer:** I'm a Data Scientist with background of Industrial Engineering so if you see i'm using an 'not better/easy/safe way to do it', im open to learn an update this resource for a better understanding of everyone.
 
 ## Working from different places
-In my case, i use to work from home at a desktop pc and a laptop outside. So the first thing we have to do is set the public keys of the devices 
+In my case, i use to work from home at a desktop pc and a laptop outside. So the first thing we have to do is set the public keys of the devices
 
 ```bash 
-000281268@PPJEFPLANEA MINGW64 ~
-$ ls -al ~/.ssh
-total 21
-drwxr-xr-x 1 000281268 1049089   0 Nov  9 12:08 ./
-drwxr-xr-x 1 000281268 1049089   0 Jan 19 16:27 ../
--rw-r--r-- 1 000281268 1049089 656 Nov  9 12:08 known_hosts
--rw-r--r-- 1 000281268 1049089 392 Nov  9 11:46 known_hosts.old
+$ ls -al ~/.ssh # This command shows existing keys
+total X
+drwxr-xr-x 1 0 Nov  9 12:08 ./
+drwxr-xr-x 1 0 Jan 19 16:27 ../
+-rw-r--r-- 1 656 Nov  9 12:08 known_hosts
+-rw-r--r-- 1 392 Nov  9 11:46 known_hosts.old
 
-000281268@PPJEFPLANEA MINGW64 ~
-$ ssh -T git@github.com
-git@github.com: Permission denied (publickey).
-
-
-000281268@PPJEFPLANEA MINGW64 ~
-$ ssh-keygen -t ed25519 -C "YOUR@EMAIl.com"
+$ ssh-keygen -t ed25519 -C "YOUR@EMAIl.com" #This one will create you the device's keys
 Generating public/private ed25519 key pair.
-Enter file in which to save the key (/c/Users/000281268/.ssh/id_ed25519):
+Enter file in which to save the key (/path/and/name):
 Enter passphrase (empty for no passphrase):
 Enter same passphrase again:
-Your identification has been saved in /c/Users/000281268/.ssh/id_ed25519
-Your public key has been saved in /c/Users/000281268/.ssh/id_ed25519.pub
+Your identification has been saved in /path/ssh/id_ed25519 #id_ed25519 is a default name
+Your public key has been saved in /path/id_ed25519.pub
 The key fingerprint is:
 SHA256:YOURNUMBER YOUR@EMAIl.com
-The key's randomart image is:
+The keys randomart image is:
 +--[ED25519 256]--+
 |oO*              |
 [Your  fingerprint]
 |    . BB++==*.   |
 +----[SHA256]-----+
 
-000281268@PPJEFPLANEA MINGW64 ~
-$ ^C
+$ ls -al ~/.ssh # Now we got our public and private keys
+drwxr-xr-x 1   0 Mar  9 13:53 ./
+drwxr-xr-x 1   0 Jan 19 16:27 ../
+-rw-r--r-- 1  464 Mar  9 13:53 id_ed25519
+-rw-r--r-- 1  106 Mar  9 13:53 id_ed25519.pub
+-rw-r--r-- 1  656 Nov  9 12:08 known_hosts
+-rw-r--r-- 1  392 Nov  9 11:46 known_hosts.old
+```
 
-000281268@PPJEFPLANEA MINGW64 ~
-$ ls -al ~/.ssh
-total 27
-drwxr-xr-x 1 000281268 1049089   0 Mar  9 13:53 ./
-drwxr-xr-x 1 000281268 1049089   0 Jan 19 16:27 ../
--rw-r--r-- 1 000281268 1049089 464 Mar  9 13:53 id_ed25519
--rw-r--r-- 1 000281268 1049089 106 Mar  9 13:53 id_ed25519.pub
--rw-r--r-- 1 000281268 1049089 656 Nov  9 12:08 known_hosts
--rw-r--r-- 1 000281268 1049089 392 Nov  9 11:46 known_hosts.old
+Now we have to let know to github our key in order to be recognized everytime we work with our repos
 
-000281268@PPJEFPLANEA MINGW64 ~
-$ clip <~/.ssh/id_ed25519.pub
+first we copy our key like this:
 
-000281268@PPJEFPLANEA MINGW64 ~
+```
 $ clip < ~/.ssh/id_ed25519.pub
+```
+Then we go to our GitHub Settings>SSH and GPG Keys> New SSH key and paste our key
 
-000281268@PPJEFPLANEA MINGW64 ~
-$sssh -T git@github.com                                                         Enter passphrase for key '/c/Users/000281268/.ssh/id_ed25519':
+![Tux, the Linux mascot](/images/2.png)
+
+Now we can verify the connection like this at shell or bash
+```
+$ssh -T git@github.com                                                         Enter passphrase for key '/c/Users/000281268/.ssh/id_ed25519':
 Hi youruser! You've successfully authenticated, but GitHub does not provide shell access.
-
-000281268@PPJEFPLANEA MINGW64 ~
 $
 ```
 
@@ -275,8 +268,8 @@ To github.com:felipesalda/how-to-work-remote.git
    ee6af1d..9c08cff  main -> main
 
 C:\Users\000281268\Documents\DS_Projects\How to work remote>
-```
 
+```
 
 # Problem #1: main and master conflict
 
@@ -299,5 +292,7 @@ but this is something additional to do everytime, so there is when comes the nex
 ```bash
 git config --global init.defaultBranch main
 ```
+
+![Tux, the Linux mascot](/images/1.png)
 
 Now we have ***one less, one less problem🎶*** 
