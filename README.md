@@ -278,3 +278,26 @@ C:\Users\000281268\Documents\DS_Projects\How to work remote>
 ```
 
 
+# Problem #1: main and master conflict
+
+From Octuber 2020 GitHub change the name of the principal branch, from master to main, but git keeps calling master so in the moment you'll connect them you will have as a result two branches: main and master.
+
+In order to avoid this i've found two solutions:
+
+1. for an existing repo with this two branches you can use this command at master:
+
+```bash
+git branch-M main
+```
+
+- `M` = moves all the existing changes at `master` to `main`
+
+but this is something additional to do everytime, so there is when comes the next one to solve it once and for all.
+
+2. In Git's Bash we can set the configuration of every repo we will create from now with the name of the principal branch like this:
+
+```bash
+git config --global init.defaultBranch main
+```
+
+Now we have ***one less, one less problem🎶*** 
