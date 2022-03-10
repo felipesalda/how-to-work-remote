@@ -9,35 +9,27 @@ In my case, i use to work from home at a desktop pc and a laptop outside. So the
 
 ```bash 
 $ ls -al ~/.ssh # This command shows existing keys
-total X
-drwxr-xr-x 1 0 Nov  9 12:08 ./
-drwxr-xr-x 1 0 Jan 19 16:27 ../
--rw-r--r-- 1 656 Nov  9 12:08 known_hosts
--rw-r--r-- 1 392 Nov  9 11:46 known_hosts.old
+total 0
 
-$ ssh-keygen -t ed25519 -C "YOUR@EMAIl.com" #This one will create you the device's keys
-Generating public/private ed25519 key pair.
+$ ssh-keygen -t rsa -b 4096 -C "YOUR@EMAIl.com" #This one will create you the device's keys
+Generating public/private id_rsa key pair.
 Enter file in which to save the key (/path/and/name):
 Enter passphrase (empty for no passphrase):
 Enter same passphrase again:
-Your identification has been saved in /path/ssh/id_ed25519 #id_ed25519 is a default name
-Your public key has been saved in /path/id_ed25519.pub
+Your identification has been saved in /path/ssh/id_rsa
+Your public key has been saved in /path/id_rsa.pub
 The key fingerprint is:
 SHA256:YOURNUMBER YOUR@EMAIl.com
 The keys randomart image is:
-+--[ED25519 256]--+
-|oO*              |
-[Your  fingerprint]
-|    . BB++==*.   |
-+----[SHA256]-----+
++----[BLABLABLA]-----+
+|oO*                 |
+[Your  fingerprint   ]
+|     . BB++==*.     |
++----[BLABLABLA]-----+
 
 $ ls -al ~/.ssh # Now we got our public and private keys
-drwxr-xr-x 1   0 Mar  9 13:53 ./
-drwxr-xr-x 1   0 Jan 19 16:27 ../
--rw-r--r-- 1  464 Mar  9 13:53 id_ed25519
--rw-r--r-- 1  106 Mar  9 13:53 id_ed25519.pub
--rw-r--r-- 1  656 Nov  9 12:08 known_hosts
--rw-r--r-- 1  392 Nov  9 11:46 known_hosts.old
+-rw-r--r-- 1  464 Mar  9 13:53 id_rsa #Private
+-rw-r--r-- 1  106 Mar  9 13:53 id_rsa.pub #Public
 ```
 
 Now we have to let know to github our key in order to be recognized everytime we work with our repos
@@ -45,233 +37,34 @@ Now we have to let know to github our key in order to be recognized everytime we
 first we copy our key like this:
 
 ```
-$ clip < ~/.ssh/id_ed25519.pub
+$ clip < ~/.ssh/id_rsa.pub
 ```
 Then we go to our GitHub Settings>SSH and GPG Keys> New SSH key and paste our key
 
-![Tux, the Linux mascot](/images/2.png)
+![SSH and GPC Keys](/images/2.png)
 
-Now we can verify the connection like this at shell or bash
-```
+Now we can verify the connection like this at  bash:
+```bash
 $ssh -T git@github.com                                                         Enter passphrase for key '/c/Users/000281268/.ssh/id_ed25519':
 Hi youruser! You've successfully authenticated, but GitHub does not provide shell access.
 $
 ```
 
-
-git cmd
+Now it's time to notice to our device that we are reaching a github repo. at the cmd of our repo:
 ```shell
-(venv) C:\Users\000281268\Documents\DS_Projects\How to work remote>deactivate
-C:\Users\000281268\Documents\DS_Projects\How to work remote>git pull origin main
-git@github.com: Permission denied (publickey).
-fatal: Could not read from remote repository.
-
-Please make sure you have the correct access rights
-and the repository exists.
-
-C:\Users\000281268\Documents\DS_Projects\How to work remote>git pull origin main
-Enter passphrase for key '/c/Users/000281268/.ssh/id_ed25519': 
-remote: Enumerating objects: 4, done.
-remote: Counting objects: 100% (4/4), done.
-remote: Compressing objects: 100% (4/4), done.
-remote: Total 4 (delta 0), reused 0 (delta 0), pack-reused 0
-Unpacking objects: 100% (4/4), 1.67 KiB | 74.00 KiB/s, done.
-From github.com:felipesalda/how-to-work-remote
- * branch            main       -> FETCH_HEAD
- * [new branch]      main       -> origin/main
-fatal: refusing to merge unrelated histories
-
-C:\Users\000281268\Documents\DS_Projects\How to work remote>git push origin main                          
-error: src refspec main does not match any
-error: failed to push some refs to 'github.com:felipesalda/how-to-work-remote.git'
-
-C:\Users\000281268\Documents\DS_Projects\How to work remote>git push origin main 
-error: src refspec main does not match any
-error: failed to push some refs to 'github.com:felipesalda/how-to-work-remote.git'
-
-C:\Users\000281268\Documents\DS_Projects\How to work remote>git pull origin main --allow-unrelated-histories
-Enter passphrase for key '/c/Users/000281268/.ssh/id_ed25519': 
-From github.com:felipesalda/how-to-work-remote
- * branch            main       -> FETCH_HEAD
-CONFLICT (add/add): Merge conflict in .gitignore
-Auto-merging .gitignore
-Automatic merge failed; fix conflicts and then commit the result.
-
-C:\Users\000281268\Documents\DS_Projects\How to work remote>git add .
-
-C:\Users\000281268\Documents\DS_Projects\How to work remote>git commit -m "connected git with github"
-[master 8800479] connected git with github
-
-C:\Users\000281268\Documents\DS_Projects\How to work remote>git push origin main
-error: src refspec main does not match any
-error: failed to push some refs to 'github.com:felipesalda/how-to-work-remote.git'
-
-C:\Users\000281268\Documents\DS_Projects\How to work remote>git status
-On branch master
-nothing to commit, working tree clean
-
-C:\Users\000281268\Documents\DS_Projects\How to work remote>git push origin master
-Enter passphrase for key '/c/Users/000281268/.ssh/id_ed25519': 
-Enumerating objects: 8, done.
-Counting objects: 100% (8/8), done.
-Delta compression using up to 4 threads
-Compressing objects: 100% (5/5), done.
-Writing objects: 100% (6/6), 687 bytes | 343.00 KiB/s, done.
-Total 6 (delta 1), reused 0 (delta 0), pack-reused 0
-remote: Resolving deltas: 100% (1/1), completed with 1 local object.
-remote: 
-remote: Create a pull request for 'master' on GitHub by visiting:
-remote:      https://github.com/felipesalda/how-to-work-remote/pull/new/master
-remote:
-To github.com:felipesalda/how-to-work-remote.git
- * [new branch]      master -> master
-
-C:\Users\000281268\Documents\DS_Projects\How to work remote>git git branch --list
-git: 'git' is not a git command. See 'git --help'.
-
-The most similar command is
-        init
-
-C:\Users\000281268\Documents\DS_Projects\How to work remote>git branch --list     
-* master
-
-C:\Users\000281268\Documents\DS_Projects\How to work remote>git checkout main
-Switched to a new branch 'main'
-Branch 'main' set up to track remote branch 'main' from 'origin'.
-
-C:\Users\000281268\Documents\DS_Projects\How to work remote>git branch -v
-* main   0230f12 Initial commit
-  master 8800479 connected git with github
-
-C:\Users\000281268\Documents\DS_Projects\How to work remote>git merge master
-Updating 0230f12..8800479
-Fast-forward
- .gitignore | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-C:\Users\000281268\Documents\DS_Projects\How to work remote>git add .
-
-C:\Users\000281268\Documents\DS_Projects\How to work remote>git commit -m "branch main and master merged"
-On branch main
-Your branch is ahead of 'origin/main' by 2 commits.
-  (use "git push" to publish your local commits)
-
-nothing to commit, working tree clean
-
-C:\Users\000281268\Documents\DS_Projects\How to work remote>git merge main  
-Already up to date.
-
-C:\Users\000281268\Documents\DS_Projects\How to work remote>git merge master
-Already up to date.
-
-C:\Users\000281268\Documents\DS_Projects\How to work remote>git log
-commit 880047902187f3285c98c45ad61085a9d07b4d81 (HEAD -> main, origin/master, master)
-Merge: 176c84d 0230f12
-Author: Felipe Saldarriaga @ U <felipe.salda@hotmail.com>
-Date:   Wed Mar 9 14:06:25 2022 -0500
-
-    connected git with github
-
-commit 0230f1280c4b17c6a51998ee226c1333faac5b99 (origin/main)
-Author: Carlos Felipe Saldarriaga Bejarano <46731424+felipesalda@users.noreply.github.com>
-Date:   Wed Mar 9 13:40:10 2022 -0500
-
-    Initial commit
-
-commit 176c84d9ae1640e876c0a2899649a630cb9a2ebe
-Author: Felipe Saldarriaga @ U <felipe.salda@hotmail.com>
-Date:   Wed Mar 9 12:23:46 2022 -0500
-
-
-C:\Users\000281268\Documents\DS_Projects\How to work remote>git log
-commit 880047902187f3285c98c45ad61085a9d07b4d81 (HEAD -> main, origin/master, master)
-Merge: 176c84d 0230f12
-commit 880047902187f3285c98c45ad61085a9d07b4d81 (HEAD -> main, origin/master, master)
-Merge: 176c84d 0230f12
-commit 880047902187f3285c98c45ad61085a9d07b4d81 (HEAD -> main, origin/master, master)
-Merge: 176c84d 0230f12
-Author: Felipe Saldarriaga @ U <felipe.salda@hotmail.com>
-Date:   Wed Mar 9 14:06:25 2022 -0500
-
-    connected git with github
-
-commit 0230f1280c4b17c6a51998ee226c1333faac5b99 (origin/main)
-Author: Carlos Felipe Saldarriaga Bejarano <46731424+felipesalda@users.noreply.github.com>
-Date:   Wed Mar 9 13:40:10 2022 -0500
-
-    Initial commit
-
-commit 176c84d9ae1640e876c0a2899649a630cb9a2ebe
-Author: Felipe Saldarriaga @ U <felipe.salda@hotmail.com>
-Date:   Wed Mar 9 12:23:46 2022 -0500
-
-C:\Users\000281268\Documents\DS_Projects\How to work remote>git branch --delete master
-Deleted branch master (was 8800479).
-
-C:\Users\000281268\Documents\DS_Projects\How to work remote>git add .
-
-C:\Users\000281268\Documents\DS_Projects\How to work remote>git commit -m "erased master branch"
-On branch main
-Your branch is ahead of 'origin/main' by 2 commits.
-  (use "git push" to publish your local commits)
-
-nothing to commit, working tree clean
-
-C:\Users\000281268\Documents\DS_Projects\How to work remote>git checkout main
-Already on 'main'
-Your branch is ahead of 'origin/main' by 2 commits.
-  (use "git push" to publish your local commits)
-
-C:\Users\000281268\Documents\DS_Projects\How to work remote>git push
-Enter passphrase for key '/c/Users/000281268/.ssh/id_ed25519': 
-Total 0 (delta 0), reused 0 (delta 0), pack-reused 0
-To github.com:felipesalda/how-to-work-remote.git
-   0230f12..8800479  main -> main
-
-C:\Users\000281268\Documents\DS_Projects\How to work remote>git add .
-
-C:\Users\000281268\Documents\DS_Projects\How to work remote>git branch --delete master
-error: branch 'master' not found.
-
-C:\Users\000281268\Documents\DS_Projects\How to work remote>git commit -m "erased master branch"
-[main ee6af1d] erased master branch
- 1 file changed, 133 insertions(+)
-
-C:\Users\000281268\Documents\DS_Projects\How to work remote>git push         
-Enter passphrase for key '/c/Users/000281268/.ssh/id_ed25519': 
-Enumerating objects: 5, done.
-Counting objects: 100% (5/5), done.
-Delta compression using up to 4 threads
-Compressing objects: 100% (3/3), done.
-Writing objects: 100% (3/3), 325 bytes | 162.00 KiB/s, done.
-Total 3 (delta 1), reused 0 (delta 0), pack-reused 0
-remote: Resolving deltas: 100% (1/1), completed with 1 local object.
-To github.com:felipesalda/how-to-work-remote.git
-   8800479..ee6af1d  main -> main
-
-C:\Users\000281268\Documents\DS_Projects\How to work remote>git add .
-
-ted"
-[main 9c08cff] .gitignore updated
- 1 file changed, 3 deletions(-)
-
-C:\Users\000281268\Documents\DS_Projects\How to work remote>git push
-Enter passphrase for key '/c/Users/000281268/.ssh/id_ed25519':
-Enumerating objects: 5, done.
-Counting objects: 100% (5/5), done.
-Delta compression using up to 4 threads
-Compressing objects: 100% (3/3), done.
-Writing objects: 100% (3/3), 326 bytes | 326.00 KiB/s, done.
-Total 3 (delta 1), reused 0 (delta 0), pack-reused 0
-remote: Resolving deltas: 100% (1/1), completed with 1 local object.
-To github.com:felipesalda/how-to-work-remote.git
-   ee6af1d..9c08cff  main -> main
-
-C:\Users\000281268\Documents\DS_Projects\How to work remote>
-
+git remote set-url origin git@github.com:gitusername/your-reto-link.git
+#👆🏼 Notice that this is the SSH link at github
 ```
+We can confirm that all is set:
+```shell
+git remote -v
+origin  git@github.com:gitusername/your-reto-link.git (fetch)
+origin  git@github.com:gitusername/your-reto-link.git (push)
+```
+Now we can push, pull and work with our repo everywhere, ***but alwas take care of your keys***.
 
-# Problem #1: main and master conflict
+
+## Problem #1: main and master conflict
 
 From Octuber 2020 GitHub change the name of the principal branch, from master to main, but git keeps calling master so in the moment you'll connect them you will have as a result two branches: main and master.
 
